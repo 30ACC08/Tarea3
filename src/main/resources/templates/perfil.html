@@ -4,18 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil</title>
+    
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons (Sólo si los necesitas para los íconos como el lápiz) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">Mi Aplicación</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/home}">Inicio</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link active" th:href="@{/perfil}">Mi Perfil</a>
                     </li>
@@ -30,12 +44,23 @@
         </div>
     </nav>
 
+    <!-- Contenido principal -->
     <div class="container mt-5">
+        <!-- Mensaje de éxito si la edición fue exitosa -->
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="card">
-                    <div class="card-header bg-primary text-white">
+                    <!-- Panel superior con título y botón de editar -->
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">Mi Perfil de Usuario</h4>
+                        <a th:href="@{/perfil/editar}" class="btn btn-light btn-sm">
+                            <i class="bi bi-pencil-square"></i> Editar Perfil
+                        </a>
                     </div>
                     <div class="card-body">
                         <div class="row mb-4">
@@ -50,21 +75,34 @@
                                 <h5>Información de Usuario</h5>
                                 <hr>
                                 <div class="mb-3">
-                                    <strong>Nombre de Usuario:</strong> <span sec:authentication="name"></span>
+                                    <strong>Nombre de Usuario:</strong> 
+                                    <span th:text="${usuario.nombre}">Nombre de ejemplo</span>
+                                </div>
+                                <div class="mb-3">
+                                    <strong>Email:</strong> 
+                                    <span th:text="${usuario.email}">email@ejemplo.com</span>
                                 </div>
                                 <div class="mb-3">
                                     <strong>Rol:</strong> 
-                                    <span sec:authorize="hasRole('ROLE_ADMIN')">Administrador</span>
-                                    <span sec:authorize="hasRole('ROLE_USER') and !hasRole('ROLE_ADMIN')">Usuario</span>
+                                    <span th:if="${#authentication.authorities.?[true].contains('ROLE_ADMIN')}">
+                                        Administrador
+                                    </span>
+                                    <span th:if="${#authentication.authorities.?[true].contains('ROLE_USER')} and !${#authentication.authorities.?[true].contains('ROLE_ADMIN')}">
+                                        Usuario
+                                    </span>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="card-footer">
+                        <a th:href="@{/home}" class="btn btn-secondary">Volver al Inicio</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Bootstrap JS (para funcionalidad como los botones de cerrar en mensajes) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

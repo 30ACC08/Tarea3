@@ -1,10 +1,7 @@
 package com.example.tarea3.Controllers;
 
-import com.example.tarea3.model.Usuario;
-import com.example.tarea3.model.Rol;
-import com.example.tarea3.repository.RolRepository;
-import com.example.tarea3.repository.UsuarioRepository;
-import com.example.tarea3.DTO.RegistroDTO;
+import java.util.Collections;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,8 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Collections;
-import java.util.HashSet;
+import com.example.tarea3.DTO.RegistroDTO;
+import com.example.tarea3.model.Rol;
+import com.example.tarea3.model.Usuario;
+import com.example.tarea3.repository.RolRepository;
+import com.example.tarea3.repository.UsuarioRepository;
 
 import jakarta.validation.Valid;
 
@@ -40,12 +40,6 @@ public class RegistroController {
     public String mostrarFormularioRegistro(Model model) {
         model.addAttribute("usuario", new RegistroDTO());
         return "registro";
-    }
-    
-    // Alias para mantener compatibilidad
-    @GetMapping("/registro")
-    public String mostrarFormularioRegistroAlias(Model model) {
-        return mostrarFormularioRegistro(model);
     }
     
     // Procesamiento del formulario de registro
@@ -90,7 +84,7 @@ public class RegistroController {
             return "redirect:/login";
             
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Hubo un error al registrar el usuario: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Hubo un error al registrar el usuario.");
             return "redirect:/usuarios/registro/formulario";
         }
     }

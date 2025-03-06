@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class SecurityUser implements UserDetails {
 
+    private static final long serialVersionUID = 1L;
+    
     private final Usuario usuario;
 
     public SecurityUser(Usuario usuario) {
@@ -29,7 +31,7 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        // IMPORTANTE: Aquí estamos usando el NOMBRE como username para login
+        // Usamos el nombre como username para login
         return usuario.getNombre();
     }
 

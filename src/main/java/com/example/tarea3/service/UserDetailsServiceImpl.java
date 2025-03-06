@@ -26,16 +26,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // IMPORTANTE: El formulario de login debe enviar el nombre de usuario, no el email
+        // Intentar buscar por nombre
         Optional<Usuario> usuarioOpt = usuarioRepository.findByNombre(username);
         
-        if (usuarioOpt.isEmpty()) {
-            // Si no se encuentra por nombre, intentar por email
-            usuarioOpt = usuarioRepository.findByEmail(username);
-        }
-        
         Usuario usuario = usuarioOpt.orElseThrow(() -> 
-            new UsernameNotFoundException("Usuario no encontrado con nombre o email: " + username));
+            new UsernameNotFoundException("Usuario no encontrado: " + username));
             
         return new SecurityUser(usuario);
     }

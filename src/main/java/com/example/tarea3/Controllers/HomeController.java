@@ -20,10 +20,6 @@ public class HomeController {
         return "redirect:/perfil";
     }
 
-    @GetMapping("/perfil")
-    public String home() {
-        return "perfil";
-    }
     @GetMapping("/admin")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String adminPanel(Model model, Authentication authentication) {

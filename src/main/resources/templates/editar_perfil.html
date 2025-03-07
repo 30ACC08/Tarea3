@@ -51,36 +51,74 @@
                         <h4 class="mb-0">Editar Mi Perfil</h4>
                     </div>
                     <div class="card-body">
-                        <form th:action="@{/perfil/actualizar}" method="post" class="needs-validation" novalidate>
-                            <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" 
-                                       th:value="${usuario.nombre}" required>
-                                <div class="invalid-feedback">
-                                    El nombre es obligatorio.
+                        <!-- Usar rutas estáticas por ahora para simplificar -->
+                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                            <!-- Formulario para administradores -->
+                            <form th:action="@{/admin/perfil/editar}" method="post" class="needs-validation" novalidate>
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="nombre" name="nombre" 
+                                           th:value="${usuario.nombre}" required>
+                                    <div class="invalid-feedback">
+                                        El nombre es obligatorio.
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" 
-                                       th:value="${usuario.email}" required>
-                                <div class="invalid-feedback">
-                                    Por favor, ingrese un email válido.
+                                
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" 
+                                           th:value="${usuario.email}" required>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese un email válido.
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Nueva Contraseña</label>
-                                <input type="password" class="form-control" id="password" name="password">
-                                <small class="text-muted">Dejar en blanco para mantener la contraseña actual</small>
-                            </div>
-                            
-                            <div class="d-flex justify-content-between">
-                                <a th:href="@{/perfil}" class="btn btn-secondary">Cancelar</a>
-                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                            </div>
-                        </form>
+                                
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Nueva Contraseña</label>
+                                    <input type="password" class="form-control" id="password" name="password">
+                                    <small class="text-muted">Dejar en blanco para mantener la contraseña actual</small>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between">
+                                    <a th:href="@{/admin/perfil}" class="btn btn-secondary">Cancelar</a>
+                                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div sec:authorize="!hasRole('ROLE_ADMIN')">
+                            <!-- Formulario para usuarios normales -->
+                            <form th:action="@{/perfil/editar}" method="post" class="needs-validation" novalidate>
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="nombre" name="nombre" 
+                                           th:value="${usuario.nombre}" required>
+                                    <div class="invalid-feedback">
+                                        El nombre es obligatorio.
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" 
+                                           th:value="${usuario.email}" required>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese un email válido.
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Nueva Contraseña</label>
+                                    <input type="password" class="form-control" id="password" name="password">
+                                    <small class="text-muted">Dejar en blanco para mantener la contraseña actual</small>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between">
+                                    <a th:href="@{/perfil}" class="btn btn-secondary">Cancelar</a>
+                                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
